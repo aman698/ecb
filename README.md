@@ -90,3 +90,20 @@ Use arrow keys to navigate, and Enter key to select.
 Select Addons to enable.
 
 <img decoding="async" src="https://computingforgeeks.com/wp-content/uploads/2018/08/install-asterisk-ubuntu-18.04-01-min.png" alt="install asterisk ubuntu 18.04 01 min" title="Install Asterisk 18 LTS on Ubuntu 22.04|20.04|18.04 1">
+
+Enable Core sound modules you want to use.
+
+<img decoding="async" src="https://computingforgeeks.com/wp-content/uploads/2018/08/install-asterisk-ubuntu-18.04-02-min.png" alt="install asterisk ubuntu 18.04 02 min" title="Install Asterisk 18 LTS on Ubuntu 22.04|20.04|18.04 2">
+
+You can also add additional MOH packages you want to use.
+
+<img decoding="async" src="https://computingforgeeks.com/wp-content/uploads/2018/08/install-asterisk-ubuntu-18.04-03-min.png" alt="install asterisk ubuntu 18.04 03 min" title="Install Asterisk 18 LTS on Ubuntu 22.04|20.04|18.04 3">
+
+Do the same for Extra Sound Packages.
+
+<img decoding="async" src="https://computingforgeeks.com/wp-content/uploads/2018/08/install-asterisk-ubuntu-18.04-04-min.png" alt="install asterisk ubuntu 18.04 04 min" title="Install Asterisk 18 LTS on Ubuntu 22.04|20.04|18.04 4">
+
+You can also go through the other menus and select options you see fit for your use case.
+
+When done run the following command to build Asterisk 18 on Ubuntu 20.04.
+
