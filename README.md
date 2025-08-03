@@ -26,4 +26,44 @@ command:
 2. sudo add-apt-repository universe
 3. sudo apt -y install git curl wget libnewt-dev libssl-dev libncurses5-dev subversion libsqlite3-dev build-essential libjansson-dev libxml2-dev  uuid-dev
 
+The installation should only take few minutes if you have a decent internet connection.
+
+# 3. Download Asterisk 18 tarball
+
+You won’t find the latest release of Asterisk in the official system repositories. We’ll have to manually download the tarball and build the application from source.
+
+For example, on Ubuntu 20.04, the version available in APT repositories is 16.
+
+command: 
+1. sudo apt policy asterisk
+
+output: asterisk:
+  Installed: (none)
+  Candidate: 1:16.2.1~dfsg-2ubuntu1
+  Version table:
+     1:16.2.1~dfsg-2ubuntu1 500
+        500 http://archive.ubuntu.com/ubuntu focal/universe amd64 Packages
+        500 http://mirror.hetzner.de/ubuntu/packages focal/universe amd64 Packages
+    
+Use wget command to download archive file.
+
+command: 
+1. sudo su
+2. cd ~
+3. wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-18-current.tar.gz
+
+Extract the file with tar.
+4. tar xvf asterisk-18-current.tar.gz
+
+Run the following command to download the mp3 decoder library into the source tree.
+
+5. cd asterisk-18*/
+6. contrib/scripts/get_mp3_source.sh
+
+Expected command execution output:
+
+
+![alt text](image.png)
+
+
 
