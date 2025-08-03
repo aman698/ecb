@@ -47,7 +47,9 @@ output: asterisk:
     
 Use wget command to download archive file.
 
-command: 
+command:
+
+```bash
 1. sudo su
 2. cd ~
 3. wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-18-current.tar.gz
@@ -74,13 +76,15 @@ You should get a success message at the end:
 After installation of dependencies you should be ready to build Asterisk 18 from the source we downloaded.
 
 Run the configure script to satisfy build dependencies.
+
 command: 
 1. ./configure
 
 A success should have an output like below:
 ![alt text](<Screenshot from 2025-08-03 20-14-13.png>)
 
-Setup menu options by running the following command:
+Setup menu options by running the following.
+
 2. make menuselect
 
 Use arrow keys to navigate, and Enter key to select.
