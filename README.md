@@ -10,19 +10,18 @@ In this blog post we’ll walk though the installation of Asterisk 18 LTS on Ubu
 
 # Install Asterisk 18 LTS on Ubuntu 20.04
 
-1. Update Ubuntu System
+# 1. Update Ubuntu System
 
-# command: 
+command: 
 1. sudo apt update
 2. sudo apt -y upgrade
-
 3. [ -f /var/run/reboot-required ] && sudo reboot -f
 
 # Install Build Dependencies
 
 After system is rebooted login and install all dependencies required to build Asterisk on Ubuntu Linux machine.
 
-# command
+command:
 1. sudo apt update
 2. sudo add-apt-repository universe
 3. sudo apt -y install git curl wget libnewt-dev libssl-dev libncurses5-dev subversion libsqlite3-dev build-essential libjansson-dev libxml2-dev  uuid-dev
