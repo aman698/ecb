@@ -188,10 +188,6 @@ Verify you can connect to Asterisk Command Line interface.
  Asterisk cleanly ending (0).
  Executing last minute cleanups
 
-If you have an active ufw firewall, open http ports and ports 5060,5061:
-
-14. sudo ufw allow proto tcp from any to any port 5060,5061
-
 # 6. Changes in files
 
 command:
@@ -211,18 +207,18 @@ changes in sip.conf, extensions.conf
 
 1. cd /etc/asterisk
 2. sudo mv sip.conf sip.conff
-3. sudo nano sip.conf
-[text](sip.conf)
+3. sudo nano sip.conf 
+link of sip.conf: [text](sip.conf)
 
 4. sudo mv extensions.conf extensions.conff
-[text](extensions.conf)
+link of extensions.conf[text]: (extensions.conf)
 
+If you have an active ufw firewall, open http ports and ports 5060,5061:
 
+14. sudo ufw allow proto tcp from any to any port 5060,5061
 
-sip.conf:
+# Restart services.
 
-
-
-
+1. sudo systemctl restart asterisk;
 
 You now have Asterisk 18 installed and working on Ubuntu 20.04 Linux server.
