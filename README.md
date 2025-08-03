@@ -311,6 +311,7 @@ Run the following command to ensure ODBC can connect to MySQL:
 If successful, you should see a SQL prompt. Otherwise, troubleshoot the configuration files.
 
 18. sudo nano /etc/asterisk/res_odbc.conf
+
 edit: [asterisk]
 enabled => yes
 dsn => asterisk-connector
@@ -337,6 +338,7 @@ Log in to MySQL and create the CDR database and table:
 [Note]: change bind address in mysql.conf for remote access
 
 21. sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+
 bind-address = 127.0.0.1
 change to
 bind-address = 0.0.0.0
@@ -352,8 +354,128 @@ code: [text](sensor.py)
 
 #9. FTP configurations.
 
+commands:
+
+1. sudo apt update
+2. sudo apt install vsftpd
+3. sudo service vsftpd status
+4. sudo nano /etc/vsftpd.conf
+
+changes in vsftpd.conf file
+
+1. uncomment write_enable=YES
+2. chroot_local_user=YES
+
+put this lines in bottom of configurations file(vsftpd.conf)
+user_sub_token=$USER
+local_root=/home/$USER/ftp
+pasv_min_port=10000
+pasv_max_port=10100
+
+3. sudo ufw allow from any to any port 20,21,10000:10100 proto tcp
+
+4. sudo adduser vrsiis
+password set: vrsvrs
+
+5. sudo mkdir /home/vrsiis/ftp
+6. sudo chown nobody:nogroup /home/vrsiis/ftp
+7. sudo chmod a-w /home/vrsiis/ftp
+8. sudo mkdir /home/vrsiis/ftp/upload
+9. sudo "My FTP Server" | sudo tee /home/vrsiis/ftp/upload/demo.txt
+10. sudo ls -la /home/vrsiis/ftp
+11. echo "vrsiis" | sudo tee -a /etc/vsftpd.userlist
+12. sudo systemctl restart vsftpd
+13. sudo nano /etc/vsftpd.conf
+14. sudo chown -R asterisk:asterisk /home/vrsiis/ftp/upload
+15. sudo chmod -R 775 /home/vrsiis/ftp/upload
+
+added some lines in bottom of vsftpd.conf file
+
+userlist_enable=YES
+userlist_file=/etc/vsftpd.userlist
+userlist_deny=NO
+ 
+save and exit
+
+16. sudo reboot 
+
+also if any issue for connect use refer this video: https://www.youtube.com/watch?v=XNjOSY-wcb0
+
+#9. Setup move .wav files to ftp folder after a call is fully complete.
+
+first make a script:
+1. /usr/local/bin/move_recordings.sh: [text](move_recordings.sh)
+
+2. sudo chmod +x /usr/local/bin/move_recordings.sh
+3. sudo chown -R asterisk:asterisk /home/vrsiis/ftp
+4. sudo chmod -R 775 /home/vrsiis/ftp
+
+Run the move_recordings.sh run every one second so make a python script: [text](recordings.py)
+
+#10. Sends the real time logs events on socket port 5566.
+
+1. sudo nano send_asterisk_calls_with_reload.py : [text](send_asterisk_calls_with_reload.py)
+2. sudo visudo
+3. vrsiis ALL=(ALL) NOPASSWD: /usr/sbin/asterisk
+4. sudo chmod +x /usr/local/bin/send_asterisk_calls_with_reload.py
+5. sudo chown asterisk:asterisk /var/log/asterisk/full
+6. sudo chmod 644 /var/log/asterisk/full
+
+#11. Dynamically update sip.conf in your Asterisk SIP server whenever a new device is added to a MySQL database.
+
+GOAL SUMMARY
+You want to store SIP user/device details like [102] in a MySQL table.
+
+When a new device is added to that table, it should automatically get written to sip.conf.
+
+You want to use a script (cron or daemon) to sync database to Asterisk config.
+
+You want correct permissions between asterisk and your user (vrs).
+
+MYSQL TABLE STRUCTURE: CREATE TABLE sip_users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(20) NOT NULL,         -- e.g., 102
+    type VARCHAR(10) DEFAULT 'friend',
+    host VARCHAR(20) DEFAULT 'dynamic',
+    secret VARCHAR(64) NOT NULL,
+    context VARCHAR(20) DEFAULT 'internal',
+    dtmfmode VARCHAR(20) DEFAULT 'rfc2833',
+    nat VARCHAR(10) DEFAULT 'yes',
+    disallow VARCHAR(10) DEFAULT 'all',
+    allow VARCHAR(50) DEFAULT 'ulaw,alaw',
+    qualify VARCHAR(10) DEFAULT 'yes',
+    canreinvite VARCHAR(10) DEFAULT 'no',
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+Add sample user: INSERT INTO sip_users (name, secret) VALUES ('103', 'pass103');
+
+Delete user: DELETE FROM sip_users WHERE name = '103';
 
 
+PYTHON SCRIPT TO SYNC DB -> sip.conf
 
+sync_sip_users.py: [text](sync_sip_users.py)
+
+Asterisk SIP Config Include
+
+In your main /etc/asterisk/sip.conf, at the bottom add: #include sip_custom.conf
+
+Create a new file /etc/asterisk/sip_custom.conf
+
+1. cd /etc/asterisk
+2. sudo nano sip_custom.conf
+
+permission:
+1. sudo chown asterisk:asterisk /etc/asterisk/sip_custom.conf
+2. sudo usermod -aG asterisk lakra
+3. sudo chmod 664 /etc/asterisk/sip_custom.conf
+
+Permissions:
+1. sudo visudo
+
+add: vrsiis ALL=(ALL) NOPASSWD: /usr/sbin/asterisk
+
+For running this feature: python3 sync_sip_users.py
 
 
