@@ -250,30 +250,7 @@ Edit files for connectivity:
 
 14. mysql -u root -p
 
-mysql commands setup table:
-1. CREATE DATABASE asterisk;
-2. USE asterisk;
-3. CREATE TABLE cdr (
-    calldate datetime NOT NULL,
-    clid varchar(80) NOT NULL,
-    src varchar(80) NOT NULL,
-    dst varchar(80) NOT NULL,
-    dcontext varchar(80) NOT NULL,
-    channel varchar(80) NOT NULL,
-    dstchannel varchar(80) DEFAULT NULL,
-    lastapp varchar(80) NOT NULL,
-    lastdata varchar(80) NOT NULL,
-    duration int(11) NOT NULL,
-    billsec int(11) NOT NULL,
-    disposition varchar(45) NOT NULL,
-    amaflags int(11) NOT NULL,
-    accountcode varchar(20) DEFAULT NULL,
-    uniqueid varchar(32) NOT NULL,
-    userfield varchar(255) DEFAULT NULL,
-    primary key (calldate, uniqueid)
-);
-4. FLUSH PRIVILEGES;
-5. EXIT;
+mysql commands setup table: [text](mysql.db)
 
 15. sudo nano /etc/odbc.ini
 
@@ -432,21 +409,7 @@ You want to use a script (cron or daemon) to sync database to Asterisk config.
 
 You want correct permissions between asterisk and your user (vrs).
 
-MYSQL TABLE STRUCTURE: CREATE TABLE sip_users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(20) NOT NULL,         -- e.g., 102
-    type VARCHAR(10) DEFAULT 'friend',
-    host VARCHAR(20) DEFAULT 'dynamic',
-    secret VARCHAR(64) NOT NULL,
-    context VARCHAR(20) DEFAULT 'internal',
-    dtmfmode VARCHAR(20) DEFAULT 'rfc2833',
-    nat VARCHAR(10) DEFAULT 'yes',
-    disallow VARCHAR(10) DEFAULT 'all',
-    allow VARCHAR(50) DEFAULT 'ulaw,alaw',
-    qualify VARCHAR(10) DEFAULT 'yes',
-    canreinvite VARCHAR(10) DEFAULT 'no',
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
+MYSQL TABLE STRUCTURE: [text](mysql.db)
 
 Add sample user: INSERT INTO sip_users (name, secret) VALUES ('103', 'pass103');
 
