@@ -48,8 +48,6 @@ output: asterisk:
 Use wget command to download archive file.
 
 command:
-
-```bash
 1. sudo su
 2. cd ~
 3. wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-18-current.tar.gz
