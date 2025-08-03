@@ -63,5 +63,28 @@ Run the following command to download the mp3 decoder library into the source tr
 Expected command execution output:
 ![alt text](image.png)
 
+Ensure all dependencies are resolved:
+7. sudo contrib/scripts/install_prereq install
 
+You should get a success message at the end:
+![alt text](image-1.png)
 
+# 4. Build and Install Asterisk 18
+
+After installation of dependencies you should be ready to build Asterisk 18 from the source we downloaded.
+
+Run the configure script to satisfy build dependencies.
+command: 
+1. ./configure
+
+A success should have an output like below:
+![alt text](<Screenshot from 2025-08-03 20-14-13.png>)
+
+Setup menu options by running the following command:
+2. make menuselect
+
+Use arrow keys to navigate, and Enter key to select.
+
+Select Addons to enable.
+
+<img decoding="async" src="https://computingforgeeks.com/wp-content/uploads/2018/08/install-asterisk-ubuntu-18.04-01-min.png" alt="install asterisk ubuntu 18.04 01 min" title="Install Asterisk 18 LTS on Ubuntu 22.04|20.04|18.04 1">
