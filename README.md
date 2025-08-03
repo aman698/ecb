@@ -211,7 +211,7 @@ changes in sip.conf, extensions.conf
 link of sip.conf: [text](sip.conf)
 
 4. sudo mv extensions.conf extensions.conff
-link of extensions.conf[text]: (extensions.conf)
+link of extensions.conf: [text](extensions.conf)
 
 If you have an active ufw firewall, open http ports and ports 5060,5061:
 
