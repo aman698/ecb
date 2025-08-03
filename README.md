@@ -17,7 +17,7 @@ command:
 2. sudo apt -y upgrade
 3. [ -f /var/run/reboot-required ] && sudo reboot -f
 
-# Install Build Dependencies
+# 2. Install Build Dependencies
 
 After system is rebooted login and install all dependencies required to build Asterisk on Ubuntu Linux machine.
 
