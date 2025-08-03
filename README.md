@@ -112,25 +112,8 @@ command:
 
 Here is my successful build output:
 
-.....
-TROLEnc.o ooh323cDriver.o -> chan_ooh323.so
-   [CC] format_mp3.c -> format_mp3.o
-   [CC] mp3/common.c -> mp3/common.o
-   [CC] mp3/dct64_i386.c -> mp3/dct64_i386.o
-   [CC] mp3/decode_ntom.c -> mp3/decode_ntom.o
-   [CC] mp3/layer3.c -> mp3/layer3.o
-   [CC] mp3/tabinit.c -> mp3/tabinit.o
-   [CC] mp3/interface.c -> mp3/interface.o
-   [LD] format_mp3.o mp3/common.o mp3/dct64_i386.o mp3/decode_ntom.o mp3/layer3.o mp3/tabinit.o mp3/interface.o -> format_mp3.so
-   [CC] res_config_mysql.c -> res_config_mysql.o
-   [LD] res_config_mysql.o -> res_config_mysql.so
-Building Documentation For: third-party channels pbx apps codecs formats cdr cel bridges funcs tests main res addons
- +--------- Asterisk Build Complete ---------+
- + Asterisk has successfully been built, and +
- + can be installed by running:              +
- +                                           +
- +                make install               +
- +-------------------------------------------+
+![alt text](<Screenshot from 2025-08-03 21-03-45-1.png>)
+
 
 This is the command you’ll run to install Asterisk 18 on Ubuntu:
 
@@ -138,26 +121,8 @@ This is the command you’ll run to install Asterisk 18 on Ubuntu:
 
 Sample output:
 
-....
-make[1]: Entering directory '/home/jkmutai/asterisk-18.1.1/sounds'
-make[1]: Leaving directory '/home/jkmutai/asterisk-18.1.1/sounds'
-find rest-api -name "*.json" | while read x; do \
-	/usr/bin/install -c -m 644 $x "/var/lib/asterisk/rest-api" ; \
-done
- +---- Asterisk Installation Complete -------+
- +                                           +
- +    YOU MUST READ THE SECURITY DOCUMENT    +
- +                                           +
- + Asterisk has successfully been installed. +
- + If you would like to install the sample   +
- + configuration files (overwriting any      +
- + existing config files), run:              +
- +                                           +
- + For generic reference documentation:      +
- +    make samples                           +
- + **Note** This requires that you have      +
- + doxygen installed on your local system    +
- +-------------------------------------------+
+![alt text](<Screenshot from 2025-08-03 21-05-12.png>)
+
 You can optionally install documentation:
 
 3. sudo make samples
