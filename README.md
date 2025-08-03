@@ -123,7 +123,7 @@ Sample output:
 
 ![alt text](<Screenshot from 2025-08-03 21-05-12.png>)
 
-You can optionally install documentation:
+But used this 3 commands:
 
 3. sudo make samples
 4. sudo make config
