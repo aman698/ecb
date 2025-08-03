@@ -172,6 +172,7 @@ Check service status to see if it is running.
              └─54142 /usr/sbin/asterisk -U asterisk -G asterisk
 
 Verify you can connect to Asterisk Command Line interface.
+
 13. sudo asterisk -rvv
 
  Asterisk 18.10.0, Copyright (C) 1999 - 2021, Sangoma Technologies Corporation and others.
@@ -190,5 +191,38 @@ Verify you can connect to Asterisk Command Line interface.
 If you have an active ufw firewall, open http ports and ports 5060,5061:
 
 14. sudo ufw allow proto tcp from any to any port 5060,5061
+
+# 6. Changes in files
+
+command:
+
+If devices not shown after used command: sudo asterisk -rvvvvv, sip show peers;, changes in files.
+
+1. cd /etc/asterisk
+2. sudo nano modules.conf
+
+Look for:
+-> ; chan_sip.so
+
+and uncomment it:
+-> load => chan_sip.so
+
+changes in sip.conf, extensions.conf
+
+1. cd /etc/asterisk
+2. sudo mv sip.conf sip.conff
+3. sudo nano sip.conf
+[text](sip.conf)
+
+4. sudo mv extensions.conf extensions.conff
+[text](extensions.conf)
+
+
+
+sip.conf:
+
+
+
+
 
 You now have Asterisk 18 installed and working on Ubuntu 20.04 Linux server.
