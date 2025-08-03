@@ -1,8 +1,8 @@
 # ECB DOCUMENTATIONS
 
-Requirements: Ubuntu 20.04
-user: vrs
-password: vrs@123
+# Requirements: Ubuntu 20.04
+# user: vrs
+# password: vrs@123
 
 Asterisk is a free and open source framework created by Sangoma for building communications applications both for small companies and for large scale use cases. Asterisk is a software based solution which turns your Old computer into a communications server that powers IP PBX systems, VoIP gateways, conference servers and other custom solutions. The solutions build by Asterisk powers call centers, carriers and government agencies worldwide.
 
