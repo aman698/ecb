@@ -401,7 +401,7 @@ Run the move_recordings.sh run every one second so make a python script: [text](
 #11. Dynamically update sip.conf in your Asterisk SIP server whenever a new device is added to a MySQL database.
 
 GOAL SUMMARY
-You want to store SIP user/device details like [102] in a MySQL table.
+You want to store and delete SIP user/device details like [102] in a MySQL table.
 
 When a new device is added to that table, it should automatically get written to sip.conf.
 
