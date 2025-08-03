@@ -61,8 +61,6 @@ Run the following command to download the mp3 decoder library into the source tr
 6. contrib/scripts/get_mp3_source.sh
 
 Expected command execution output:
-
-
 ![alt text](image.png)
 
 
