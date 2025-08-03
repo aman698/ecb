@@ -107,3 +107,123 @@ You can also go through the other menus and select options you see fit for your 
 
 When done run the following command to build Asterisk 18 on Ubuntu 20.04.
 
+command:
+1.make
+
+Here is my successful build output:
+
+.....
+TROLEnc.o ooh323cDriver.o -> chan_ooh323.so
+   [CC] format_mp3.c -> format_mp3.o
+   [CC] mp3/common.c -> mp3/common.o
+   [CC] mp3/dct64_i386.c -> mp3/dct64_i386.o
+   [CC] mp3/decode_ntom.c -> mp3/decode_ntom.o
+   [CC] mp3/layer3.c -> mp3/layer3.o
+   [CC] mp3/tabinit.c -> mp3/tabinit.o
+   [CC] mp3/interface.c -> mp3/interface.o
+   [LD] format_mp3.o mp3/common.o mp3/dct64_i386.o mp3/decode_ntom.o mp3/layer3.o mp3/tabinit.o mp3/interface.o -> format_mp3.so
+   [CC] res_config_mysql.c -> res_config_mysql.o
+   [LD] res_config_mysql.o -> res_config_mysql.so
+Building Documentation For: third-party channels pbx apps codecs formats cdr cel bridges funcs tests main res addons
+ +--------- Asterisk Build Complete ---------+
+ + Asterisk has successfully been built, and +
+ + can be installed by running:              +
+ +                                           +
+ +                make install               +
+ +-------------------------------------------+
+
+This is the command you’ll run to install Asterisk 18 on Ubuntu:
+
+2. sudo make install
+
+Sample output:
+
+....
+make[1]: Entering directory '/home/jkmutai/asterisk-18.1.1/sounds'
+make[1]: Leaving directory '/home/jkmutai/asterisk-18.1.1/sounds'
+find rest-api -name "*.json" | while read x; do \
+	/usr/bin/install -c -m 644 $x "/var/lib/asterisk/rest-api" ; \
+done
+ +---- Asterisk Installation Complete -------+
+ +                                           +
+ +    YOU MUST READ THE SECURITY DOCUMENT    +
+ +                                           +
+ + Asterisk has successfully been installed. +
+ + If you would like to install the sample   +
+ + configuration files (overwriting any      +
+ + existing config files), run:              +
+ +                                           +
+ + For generic reference documentation:      +
+ +    make samples                           +
+ + **Note** This requires that you have      +
+ + doxygen installed on your local system    +
+ +-------------------------------------------+
+You can optionally install documentation:
+
+3. sudo make samples
+4. sudo make config
+5. sudo ldconfig
+
+# 5. Configure and Start Asterisk Service
+
+Create a separate user and group to run asterisk services, and assign correct permissions:
+command:
+
+1. sudo groupadd asterisk
+2. sudo useradd -r -d /var/lib/asterisk -g asterisk asterisk
+3. sudo usermod -aG audio,dialout asterisk
+4. sudo chown -R asterisk.asterisk /etc/asterisk
+5. sudo chown -R asterisk.asterisk /var/{lib,log,spool}/asterisk
+6. sudo chown -R asterisk.asterisk /usr/lib/asterisk
+7. sudo chmod -R 750 /var/{lib,log,run,spool}/asterisk /usr/lib/asterisk /etc/asterisk
+
+Set Asterisk default user to asterisk:
+
+8. sudo vim /etc/default/asterisk
+#Uncomment AST_USER and AST_GROUP to look like below
+AST_USER="asterisk"
+AST_GROUP="asterisk"
+
+9. sudo vim /etc/asterisk/asterisk.conf
+runuser = asterisk ; The user to run as.
+rungroup = asterisk ; The group to run as.
+
+Restart asterisk service after making the changes:
+10. sudo systemctl restart asterisk
+
+Enable asterisk service to start on system  boot:
+11. sudo systemctl enable asterisk
+
+Check service status to see if it is running.
+12. systemctl status asterisk
+
+● asterisk.service - LSB: Asterisk PBX
+     Loaded: loaded (/etc/init.d/asterisk; generated)
+     Active: active (running) since Fri 2023-08-14 12:04:41 CEST; 9s ago
+       Docs: man:systemd-sysv-generator(8)
+      Tasks: 82 (limit: 4567)
+     Memory: 44.6M
+     CGroup: /system.slice/asterisk.service
+             └─54142 /usr/sbin/asterisk -U asterisk -G asterisk
+
+Verify you can connect to Asterisk Command Line interface.
+13. sudo asterisk -rvv
+
+ Asterisk 18.10.0, Copyright (C) 1999 - 2021, Sangoma Technologies Corporation and others.
+ Created by Mark Spencer markster@digium.com
+ Asterisk comes with ABSOLUTELY NO WARRANTY; type 'core show warranty' for details.
+ This is free software, with components licensed under the GNU General Public
+ License version 2 and other licenses; you are welcome to redistribute it under
+ certain conditions. Type 'core show license' for details.
+ Running as user 'asterisk'
+ Running under group 'asterisk'
+ Connected to Asterisk 18.1.1 currently running on asterisk (pid = 107650)
+ asterisk*CLI> exit
+ Asterisk cleanly ending (0).
+ Executing last minute cleanups
+
+If you have an active ufw firewall, open http ports and ports 5060,5061:
+
+14. sudo ufw allow proto tcp from any to any port 5060,5061
+
+You now have Asterisk 18 installed and working on Ubuntu 20.04 Linux server.
