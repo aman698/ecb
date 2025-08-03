@@ -214,12 +214,146 @@ link of sip.conf: [text](sip.conf)
 5. sudo nano extensions.conf
 link of extensions.conf: [text](extensions.conf)
 
-If you have an active ufw firewall, open http ports and ports 5060,5061:
-
-14. sudo ufw allow proto tcp from any to any port 5060,5061
 
 # Restart services.
 
 1. sudo systemctl restart asterisk;
 
+If you have an active ufw firewall, open http ports and ports 5060,5061:
+
+2. sudo ufw allow proto tcp from any to any port 5060,5061
+
 You now have Asterisk 18 installed and working on Ubuntu 20.04 Linux server.
+
+# 7. MYSQL DATABASE CONNECTIVITY SETUP:
+
+1. Install Required Packages
+
+Ensure the necessary software packages are installed on your Asterisk server.
+
+2. sudo apt update
+3. sudo apt install -f
+4. sudo apt install unixodbc unixodbc-dev libmyodbc odbcinst mysql-server
+
+If error libmyodbc installations in ubuntu:
+5. cd /home
+6. sudo su
+7. wget http://archive.ubuntu.com/ubuntu/pool/main/e/eglibc/multiarch-support_2.19-0ubuntu6_amd64.deb
+8. dpkg -i multiarch-support_2.19-0ubuntu6_amd64.deb
+9. wget http://archive.ubuntu.com/ubuntu/pool/main/m/mysql-5.5/libmysqlclient18_5.5.35+dfsg-1ubuntu1_amd64.deb
+10. dpkg -i libmysqlclient18_5.5.35+dfsg-1ubuntu1_amd64.deb
+11. wget http://archive.ubuntu.com/ubuntu/pool/universe/m/myodbc/libmyodbc_5.1.10-3_amd64.deb
+12. dpkg -i libmyodbc_5.1.10-3_amd64.deb
+13. sudo systemctl restart asterisk;
+
+Edit files for connectivity:
+
+14. mysql -u root -p
+
+mysql commands setup table:
+1. CREATE DATABASE asterisk;
+2. USE asterisk;
+3. CREATE TABLE cdr (
+    calldate datetime NOT NULL,
+    clid varchar(80) NOT NULL,
+    src varchar(80) NOT NULL,
+    dst varchar(80) NOT NULL,
+    dcontext varchar(80) NOT NULL,
+    channel varchar(80) NOT NULL,
+    dstchannel varchar(80) DEFAULT NULL,
+    lastapp varchar(80) NOT NULL,
+    lastdata varchar(80) NOT NULL,
+    duration int(11) NOT NULL,
+    billsec int(11) NOT NULL,
+    disposition varchar(45) NOT NULL,
+    amaflags int(11) NOT NULL,
+    accountcode varchar(20) DEFAULT NULL,
+    uniqueid varchar(32) NOT NULL,
+    userfield varchar(255) DEFAULT NULL,
+    primary key (calldate, uniqueid)
+);
+4. FLUSH PRIVILEGES;
+5. EXIT;
+
+15. sudo nano /etc/odbc.ini
+
+edit: [asterisk-connector]
+Description = Asterisk MySQL ODBC Connection
+Driver = MySQL
+Server = 127.0.0.1
+Database = asterisk
+User = root
+Password = vrs@123
+Port = 3306
+Option = 3
+
+16. sudo nano /etc/odbcinst.ini
+Edit: [MySQL]
+Description = ODBC for MySQL
+Driver = /usr/lib/x86_64-linux-gnu/odbc/libmyodbc.so  # Adjust path if necessary
+Setup = /usr/lib/x86_64-linux-gnu/odbc/libodbcmyS.so # Adjust path if necessary
+FileUsage = 1
+
+output: odbcinst -q -d
+
+Test the ODBC Connection
+Run the following command to ensure ODBC can connect to MySQL:
+
+17. isql -v asterisk-connector
++---------------------------------------+
+| Connected!                            |
+|                                       |
+| sql-statement                         |
+| help [tablename]                      |
+| quit                                  |
++---------------------------------------+
+
+If successful, you should see a SQL prompt. Otherwise, troubleshoot the configuration files.
+
+18. sudo nano /etc/asterisk/res_odbc.conf
+edit: [asterisk]
+enabled => yes
+dsn => asterisk-connector
+username => root
+password => vrs@123
+pre-connect => yes
+
+Configure the CDR System
+
+19. sudo nano /etc/asterisk/cdr_adaptive_odbc.conf
+
+Add the CDR configuration:
+edit: [asterisk]
+connection => asterisk
+table => cdr
+alias start => calldate
+
+Set Up the MySQL Database
+Log in to MySQL and create the CDR database and table:
+
+
+20. sudo systemctl restart asterisk
+
+[Note]: change bind address in mysql.conf for remote access
+
+21. sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+bind-address = 127.0.0.1
+change to
+bind-address = 0.0.0.0
+
+22. sudo systemctl restart mysql
+
+#8. Sockets data fetch from 50050 port ecb and sends to the 50052 port windows setup.
+
+1. sudo ufw allow 50052/tcp
+2. sudo ufw allow 50052
+
+code: [text](sensor.py)
+
+#9. FTP configurations.
+
+
+
+
+
+
